@@ -1,6 +1,7 @@
 package cn.simazilin.demo.service.impl;
 
 import cn.simazilin.demo.controller.object.form.UserLoginForm;
+import cn.simazilin.demo.controller.object.form.UserSaveForm;
 import cn.simazilin.demo.controller.object.result.UserLoginResult;
 import cn.simazilin.demo.entity.User;
 import cn.simazilin.demo.repository.UserRepository;
@@ -29,5 +30,13 @@ public class UserServiceImpl implements UserService{
         User user = userRepository.getByUserNameAndPassword(form.getUserName(),form.getPassword());
         BeanUtils.copyProperties(user,result);
         return result;
+    }
+
+    @Override
+    public Integer save(UserSaveForm form) {
+        User user = new User();
+        BeanUtils.copyProperties(form,user);
+        user = userRepository.save(user);
+        return user.getId();
     }
 }

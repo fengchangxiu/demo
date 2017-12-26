@@ -2,6 +2,7 @@ package cn.simazilin.demo.controller;
 
 import cn.simazilin.demo.common.util.JSONUtil;
 import cn.simazilin.demo.controller.object.form.UserLoginForm;
+import cn.simazilin.demo.controller.object.form.UserSaveForm;
 import cn.simazilin.demo.controller.object.result.UserLoginResult;
 import cn.simazilin.demo.service.UserService;
 import org.slf4j.Logger;
@@ -28,10 +29,18 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
+
+
     @RequestMapping(value = "/login",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.GET)
     public Object getLogin(@Valid UserLoginForm form){
         UserLoginResult result = userService.getLogin(form);
         logger.debug("返回参数：[{}]", JSONUtil.objToStr(result));
         return result;
+    }
+
+    @RequestMapping(value = "/save",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.POST)
+    public Object save(@Valid UserSaveForm form){
+
+        return userService.save(form);
     }
 }

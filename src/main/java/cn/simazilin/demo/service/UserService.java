@@ -1,6 +1,7 @@
 package cn.simazilin.demo.service;
 
 import cn.simazilin.demo.controller.object.form.UserLoginForm;
+import cn.simazilin.demo.controller.object.form.UserSaveForm;
 import cn.simazilin.demo.controller.object.result.UserLoginResult;
 
 /**
@@ -19,4 +20,6 @@ public interface UserService {
      * @return
      */
     public UserLoginResult getLogin(UserLoginForm form);
+
+    public Integer save(UserSaveForm form);
 }
