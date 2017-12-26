@@ -1,5 +1,6 @@
 package cn.simazilin.demo.controller;
 
+import cn.simazilin.demo.common.config.druid.Conf;
 import cn.simazilin.demo.common.util.JSONUtil;
 import cn.simazilin.demo.controller.object.form.UserLoginForm;
 import cn.simazilin.demo.controller.object.form.UserSaveForm;
@@ -30,10 +31,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private Conf conf;
 
     @RequestMapping(value = "/login",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.GET)
     public Object getLogin(@Valid UserLoginForm form){
         UserLoginResult result = userService.getLogin(form);
+        logger.debug("环境： 【{}】",conf.getEnv());
         logger.debug("返回参数：[{}]", JSONUtil.objToStr(result));
         return result;
     }

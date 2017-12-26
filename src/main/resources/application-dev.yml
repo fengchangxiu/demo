@@ -54,4 +54,4 @@ logging:
   config: classpath:logback-spring.xml
 
 conf:
-  env: local
+  env: dev
