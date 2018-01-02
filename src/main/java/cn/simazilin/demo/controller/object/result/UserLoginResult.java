@@ -9,11 +9,10 @@ import java.io.Serializable;
  * @Project: 阳光物业V1.0
  * @Description:
  */
-public class UserLoginResult implements Serializable{
+public class UserLoginResult implements Serializable,Comparable{
 
     private static final long serialVersionUID = -6774270539875112556L;
     private String userName;
-
     private String mobile;
 
     public String getUserName() {
@@ -30,5 +29,10 @@ public class UserLoginResult implements Serializable{
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

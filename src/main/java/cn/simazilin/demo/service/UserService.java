@@ -22,4 +22,6 @@ public interface UserService {
     public UserLoginResult getLogin(UserLoginForm form);
 
     public Integer save(UserSaveForm form);
+
+    public Integer update();
 }
