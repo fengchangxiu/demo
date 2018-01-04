@@ -51,7 +51,8 @@ demo:
     #spring.datasource.useGlobalDataSourceStat=true
 
 logging:
-  config: classpath:logback-spring.xml
+  config:
+   classpath: logback-spring.xml
 
 conf:
   env: dev

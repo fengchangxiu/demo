@@ -14,13 +14,15 @@ public class ExportResult {
     @Excel(headerName = "题干（必填）")
     private String question;
     @Excel(headerName = "答案1")
-    private String resultOne;
-    @Excel(headerName = "答案2")
-    private String resultTwo;
-    @Excel(headerName = "答案3")
-    private String resultThree;
-    @Excel(headerName = "答案4")
-    private String resultFour;
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
 
     public String getQuestion() {
         return question;
@@ -28,37 +30,5 @@ public class ExportResult {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public String getResultOne() {
-        return resultOne;
-    }
-
-    public void setResultOne(String resultOne) {
-        this.resultOne = resultOne;
-    }
-
-    public String getResultTwo() {
-        return resultTwo;
-    }
-
-    public void setResultTwo(String resultTwo) {
-        this.resultTwo = resultTwo;
-    }
-
-    public String getResultThree() {
-        return resultThree;
-    }
-
-    public void setResultThree(String resultThree) {
-        this.resultThree = resultThree;
-    }
-
-    public String getResultFour() {
-        return resultFour;
-    }
-
-    public void setResultFour(String resultFour) {
-        this.resultFour = resultFour;
     }
 }

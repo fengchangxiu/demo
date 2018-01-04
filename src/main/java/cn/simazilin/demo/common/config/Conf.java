@@ -1,4 +1,4 @@
-package cn.simazilin.demo.common.config.druid;
+package cn.simazilin.demo.common.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

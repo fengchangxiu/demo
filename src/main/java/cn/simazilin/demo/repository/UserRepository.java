@@ -1,9 +1,9 @@
 package cn.simazilin.demo.repository;
 
 import cn.simazilin.demo.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @Description:
  */
 @Repository
-public interface UserRepository extends CrudRepository<User,Integer>{
+public interface UserRepository extends JpaRepository<User,Integer>{
 
     @Query(value = "select * from t_user where user_name=?1 and password = ?2",nativeQuery = true)
     User getByUserNameAndPassword(String userName, String password);

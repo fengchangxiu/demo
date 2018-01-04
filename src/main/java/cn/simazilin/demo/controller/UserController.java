@@ -1,6 +1,7 @@
 package cn.simazilin.demo.controller;
 
-import cn.simazilin.demo.common.config.druid.Conf;
+import cn.simazilin.demo.common.config.Conf;
+import cn.simazilin.demo.common.config.redis.RedisUtils;
 import cn.simazilin.demo.common.util.DateUtils;
 import cn.simazilin.demo.common.util.ExcelUtil;
 import cn.simazilin.demo.common.util.JSONUtil;
@@ -9,12 +10,10 @@ import cn.simazilin.demo.controller.object.form.UserSaveForm;
 import cn.simazilin.demo.controller.object.result.ExportResult;
 import cn.simazilin.demo.controller.object.result.UserLoginResult;
 import cn.simazilin.demo.service.UserService;
-import cn.simazilin.demo.test.ExcelTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,11 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @北京联合倍全电子商务有限公司
@@ -45,35 +42,41 @@ public class UserController {
 
     @Autowired
     private Conf conf;
+    @Autowired
+    private RedisUtils redisUtils;
 
-    @RequestMapping(value = "/login",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.GET)
+    @RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     public Object getLogin(@Valid UserLoginForm form) {
         UserLoginResult result = userService.getLogin(form);
-        logger.debug("环境： 【{}】",conf.getEnv());
+        logger.debug("环境： 【{}】", conf.getEnv());
         logger.debug("返回参数：[{}]", JSONUtil.objToStr(result));
         return result;
     }
 
-    @RequestMapping(value = "/save",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.POST)
-    public Object save(@Valid UserSaveForm form){
+    @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+    public Object save(@Valid UserSaveForm form) {
 
         return userService.save(form);
     }
 
-    @RequestMapping(value = "/save",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.POST)
-    public void save(HttpServletRequest request, BindingResult br, HttpServletResponse response) throws Exception{
+    @RequestMapping(value = "/export", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+    public void export(HttpServletRequest request, HttpServletResponse response) throws Exception {
         List<ExportResult> results = new ArrayList<>();
-                FileReader file = new FileReader("/Users/simazilin/Downloads/excel.txt");
-        BufferedReader reader =new BufferedReader(file);
-        ExcelTest excelTest = new ExcelTest();
-        String line = null;
-        while ((line = reader.readLine()) != null){
-            String [] line2 = line.split("、");
-            List<String> list = Arrays.asList(line2[1].split("_"));
-            for (String st:list){
-
-            }
+        //redis测试
+        redisUtils.set("demo_question", "redis_question");
+        redisUtils.set("demo_result", "redis_result");
+        if (Objects.nonNull(redisUtils.get("demo_question")) && Objects.nonNull(redisUtils.get("demo_result"))) {
+            ExportResult redisResult = new ExportResult();
+            redisResult.setQuestion(redisUtils.get("demo_question").toString());
+            redisResult.setResult(redisUtils.get("demo_result").toString());
+            results.add(redisResult);
+            System.out.println("reids存在");
         }
+
+        ExportResult result = new ExportResult();
+        result.setQuestion("123question");
+        result.setResult("123result");
+        results.add(result);
         try {
             //1.设置文件ContentType类型，这样设置，会自动判断下载文件类型
             //2.设置文件头：
